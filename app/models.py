@@ -31,14 +31,19 @@ class User(UserMixin, db.Model):
     def password(self, password):
         self.password_hash = generate_password_hash(password)
 
-    # 验证密码结果是否为True
     def verify_password(self, password):
+        # 验证密码结果是否为True
         return check_password_hash(self.password_hash, password)
 
     def generate_confirmation_token(self, expiration=3600):
-        # 生成token，过期时间为3600秒后self.id为用户id
+        # 生成验证token，过期时间为3600秒后self.id为用户id
         s = Serializer(current_app.config['SECRET_KEY'], expiration)
         return s.dumps({'confirm': self.id})
+
+    def generate_reset_token(self, expiration=3600):
+        # 生成重设密码连接token，过期时间为3600秒，self.id为用户id
+        s = Serializer(current_app.config['SECRET_KEY'], expiration)
+        return s.dumps({'reset': self.id})
 
     def confirm(self, token):
         # 验证token，如果验证通过，则把新添加的confirmed属性设置为True
@@ -50,6 +55,19 @@ class User(UserMixin, db.Model):
         if data.get('confirm') != self.id:
             return False
         self.confirmed = True
+        db.session.add(self)
+        return True
+
+    def reset_password(self, token, new_password):
+        # 验证token，如果验证通过，则吧新添加的password更新
+        s = Serializer(current_app.config['SECRET_KEY'])
+        try:
+            data = s.loads(token)
+        except:
+            return False
+        if data.get('reset') != self.id:
+            return False
+        self.password = new_password
         db.session.add(self)
         return True
 
