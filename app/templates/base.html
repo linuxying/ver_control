@@ -7,15 +7,18 @@
     {{ super() }}
 {%- endblock head %}
 
-{% with messages = get_flashed_messages() %}
-  {% if messages %}
-    <ul class=flashes>
-    {% for message in messages %}
-      <li>{{ message }}</li>
-    {% endfor %}
-    </ul>
-  {% endif %}
-{% endwith %}
+{% block navbar %}
+    {%- block flash %}
+    <div class="container" style="margin-top: 50px;">
+        {% for message in get_flashed_messages() %}
+            <div class="alert alert-warning">
+                <button type="button" class="close" data-dismiss="alert">&times;</button>
+                {{ message }}
+            </div>
+        {% endfor %}
+    </div>
+    {%- endblock flash %}
+{%- endblock navbar %}
 
 {% block content %}
     <div class="container-fluid">

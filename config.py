@@ -29,13 +29,10 @@ class DevelopmentConfig(Config):
     MAIL_PORT = 465
     MAIL_USE_SSL = True
     MAIL_USE_TLS = False
-    MAIL_USERNAME = '15010257857@163.com'
-    # MAIL_USERNAME = os.environ.get('MAIL_USERNAME')
-    # MAIL_PASSWORD = os.environ.get('MAIL_PASSWORD')
-    MAIL_PASSWORD = 'Lry0218'
+    MAIL_USERNAME = os.environ.get('MAIL_USERNAME')
+    MAIL_PASSWORD = os.environ.get('MAIL_PASSWORD')
     FLASKY_MAIL_SUBJECT_PREFIX = '[项目版本统计系统]'
-    # FLASKY_MAIL_SENDER = os.environ.get('MAIL_USERNAME')
-    FLASKY_MAIL_SENDER = '15010257857@163.com'
+    FLASKY_MAIL_SENDER = os.environ.get('MAIL_USERNAME')
     SQLALCHEMY_DATABASE_URI = os.environ.get('DEV_DATABASE_URL') or \
         'sqlite:///' + os.path.join(basedir, 'data-dev.sqlite')
 
