@@ -33,6 +33,7 @@ class DevelopmentConfig(Config):
     MAIL_PASSWORD = os.environ.get('MAIL_PASSWORD')
     FLASKY_MAIL_SUBJECT_PREFIX = '[项目版本统计系统]'
     FLASKY_MAIL_SENDER = os.environ.get('MAIL_USERNAME')
+    FLASKY_ADMIN = os.environ.get('MAIL_USERNAME')
     SQLALCHEMY_DATABASE_URI = os.environ.get('DEV_DATABASE_URL') or \
         'sqlite:///' + os.path.join(basedir, 'data-dev.sqlite')
 
