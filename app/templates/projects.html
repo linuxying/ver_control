@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+
+{% block title %}项目列表{% endblock %}
+
+{% block page_content %}
+    <!--标题-->
+    <ol class="breadcrumb">
+        <li><a href="#">项目管理</a></li>
+        {#        <li><a href="#">Library</a></li>#}
+        <li class="active">项目列表</li>
+    </ol>
+
+    <div class="panel panel-default">
+        <!-- Default panel contents -->
+        <div class="panel-heading">项目列表</div>
+        <div class="panel-body">
+            <a type="button" class="btn-sm btn-info" href="{{ url_for('main.add_project') }}">添加</a>
+        </div>
+
+        <!-- Table -->
+        <table class="table table-bordered">
+            <thead>
+            <tr>
+                <th>#</th>
+                <th>项目名称</th>
+                <th>时间</th>
+                <th>备注</th>
+                <th>操作</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                {% if not projects %}
+                    <p></p>
+                {% else %}
+                    {% for p in projects %}
+                        <tr>
+                            <td>{{ p.id }}</td>
+                            <td>{{ p.projectname }}</td>
+                            <td>{{ p.date }}</td>
+                            <td>{{ p.remark }}</td>
+                            <td>
+                                <a class="btn-xs btn-primary">编辑</a>
+                                <a class="btn-xs btn-danger">删除</a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                {% endif %}
+            </tr>
+            </tbody>
+        </table>
+    </div>
+{% endblock %}

@@ -1,10 +1,54 @@
 {% extends 'base.html' %}
 
-{%- block head %}
-    <title>{% block title %}{{title|default}}版本管理系统{% endblock title %}</title>
-    {%- block styles %}
-    {{ super() }}
-        <link href="{{url_for('static', filename='css/dashboard.css')}}" rel="stylesheet">
-    {%- endblock styles %}
-{%- endblock head %}
+{% block title %}主页{% endblock %}
 
+{% block page_content %}
+    <!--标题-->
+    <ol class="breadcrumb">
+        {#                    <li><a href="#">Home</a></li>#}
+        {#        <li><a href="#">Library</a></li>#}
+        <li class="active">仪表盘</li>
+    </ol>
+
+    <!--巨幕-->
+    <div class="jumbotron" style="text-align: center">
+        {% if current_user.is_authenticated() %}
+            <h1>Hello, {{ current_user.username }}!</h1>
+        {% else %}
+            <h1>Hello, Stronger!</h1>
+        {% endif %}
+        <p>
+            本项目管理系统是为了记录项目进展过程不同用户管理的项目进度、软件交付版本及主机资源。
+        </p>
+        <!--注释掉此按钮，暂时用不上-->
+        <!--<p><a class="btn btn-primary btn-lg" href="#" role="button">Learn more</a></p>-->
+    </div>
+
+    <!--栅格-->
+    <div class="row">
+        <div class="col-md-4">
+            <div class="panel panel-default">
+                <div class="panel-heading">项目数<span class="label label-success pull-right">Projects</span></div>
+                <div class="panel-body">
+                    {{ projectsnum }}
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="panel panel-default">
+                <div class="panel-heading">用户数<span class="label label-info pull-right">Users</span></div>
+                <div class="panel-body">
+                    {{ usersnum }}
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="panel panel-default">
+                <div class="panel-heading">主机数<span class="label label-primary pull-right">Hosts</span></div>
+                <div class="panel-body">
+                    {{ hostsnum }}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

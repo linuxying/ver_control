@@ -21,6 +21,7 @@ class User(UserMixin, db.Model):
     projects = db.relationship('Project', backref='user')
     confirmed = db.Column(db.Boolean, default=False)
     roles_id = db.Column(db.Integer, db.ForeignKey('roles.id'))
+    hosts = db.relationship('Host', backref='user')
 
     def __init__(self, **kwargs):
         super(User, self).__init__(**kwargs)
@@ -154,7 +155,7 @@ class Project(db.Model):
     """
     __tablename__ = 'projects'
     id = db.Column(db.Integer, primary_key=True)
-    projectname = db.Column(db.String(256), unique=True)
+    projectname = db.Column(db.String(256))
     date = db.Column(db.DateTime, default=datetime.utcnow)
     env = db.Column(db.String(64), nullable=False)
     dev_ver = db.Column(db.String(256), nullable=False)
@@ -172,3 +173,20 @@ def load_user(user_id):
     # Flask-Login要求实现一个回调函数,使用 get_id()方法返回的唯一标识用户的Unicode字符串 作为参数 返回这个用户对象.
     # 如果是继承的UserMixin类, get_id()方法默认返回的用户的id. 如果用户不存在,应该返回None.
     return User.query.get(int(user_id))
+
+
+class Host(db.Model):
+    """
+    定义主机列表
+    """
+    __tablename__ = 'hosts'
+    id = db.Column(db.Integer, primary_key=True)
+    hostname = db.Column(db.String(128), nullable=False)
+    ip = db.Column(db.String(32), unique=True, nullable=False, index=True)
+    port = db.Column(db.Integer, nullable=False)
+    cpu = db.Column(db.String(128))
+    memory = db.Column(db.String(32))
+    disk = db.Column(db.String(32))
+    system = db.Column(db.String(256))
+    create_user = db.Column(db.Integer, db.ForeignKey('users.id'))
+    create_date = db.Column(db.DateTime, default=datetime.utcnow)

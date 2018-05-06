@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+
+{% block title %}用户列表{% endblock %}
+
+{% block page_content %}
+    <!--路径标题-->
+    <ol class="breadcrumb">
+        <li><a href="#">用户管理</a></li>
+        <!--li><a href="#">Library</a></li-->
+        <li class="active">用户列表</li>
+    </ol>
+
+    <div class="panel panel-default">
+        <!-- Default panel contents -->
+        <div class="panel-heading">用户列表</div>
+        <div class="panel-body">
+            <a type="button" class="btn-sm btn-info" href="{{ url_for('main.users') }}">添加</a>
+        </div>
+
+        <!-- Table -->
+        <table class="table table-bordered">
+            <thead>
+            <tr>
+                <th>#</th>
+                <th>用户名</th>
+                <th>角色</th>
+                <th>项目</th>
+                <th>操作</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                {% if not users %}
+                    <p></p>
+                {% else %}
+                    {% for u in users %}
+                        <tr>
+                            <td>{{ u.id }}</td>
+                            <td>{{ u.username }}</td>
+                            <td>{{ u.role.name }}</td>
+                            <td>{% for p in u.projects %}<a>{{ p.projectname }}&nbsp;</a>{% endfor %}</td>
+                            <td>
+                                <a class="btn-xs btn-primary">编辑</a>
+                                <a class="btn-xs btn-danger">删除</a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                {% endif %}
+            </tr>
+            </tbody>
+        </table>
+    </div>
+{% endblock %}

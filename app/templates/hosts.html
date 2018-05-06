@@ -1,0 +1,65 @@
+{% extends 'base.html' %}
+
+{% block title %}主机列表{% endblock %}
+{% block flash %}{% endblock %}
+{% block page_content %}
+    <div class="container">
+        {% for message in get_flashed_messages() %}
+            <div class="alert alert-warning">
+                <button type="button" class="close" data-dismiss="alert">&times;</button>
+                {{ message }}
+            </div>
+        {% endfor %}
+    </div>
+    <!--标题-->
+    <ol class="breadcrumb">
+        <li><a href="#">主机管理</a></li>
+        {#        <li><a href="#">Library</a></li>#}
+        <li class="active">主机列表</li>
+    </ol>
+
+    <div class="panel panel-default">
+        <!-- Default panel contents -->
+        <div class="panel-heading">主机列表</div>
+        <div class="panel-body">
+            <a type="button" class="btn-sm btn-info" href="{{ url_for('main.add_host') }}">添加</a>
+        </div>
+
+        <!-- Table -->
+        <table class="table table-bordered">
+            <thead>
+            <tr>
+                <th>#</th>
+                <th>主机名</th>
+                <th>IP</th>
+                <th>端口</th>
+                <th>操作系统</th>
+                <th>操作</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                {% if not hosts %}
+                    <p></p>
+                {% else %}
+                    {% for h in hosts %}
+                        <tr>
+                            <td>
+                                <label><input type="checkbox" autocomplete="off"></label>
+                            </td>
+                            <td>{{ h.hostname }}</td>
+                            <td>{{ h.ip }}</td>
+                            <td>{{ h.port }}</td>
+                            <td>{{ h.system }}</td>
+                            <td>
+                                <a href="{{ url_for('main.edit_host', id=h.id) }}" class="btn-xs btn-primary">编辑</a>
+                                <a href="{{ url_for('main.del_host', id=h.id) }}" class="btn-xs btn-danger">删除</a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                {% endif %}
+            </tr>
+            </tbody>
+        </table>
+    </div>
+{% endblock %}
