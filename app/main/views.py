@@ -165,6 +165,13 @@ def edit_host(id):
     return render_template('edit_host.html', form=form)
 
 
+@main.route('/host-detail/<id>')
+@login_required
+def host_detail(id):
+    host = Host.query.filter_by(id=id).first()
+    return render_template('host_detail.html', host=host)
+
+
 @main.route('/projects')
 @login_required
 def projects():

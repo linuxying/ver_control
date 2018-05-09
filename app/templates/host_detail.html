@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+
+{% block page_content %}
+    <!--标题-->
+    <ol class="breadcrumb">
+        <li><a href="{{ url_for('main.index') }}">主机管理</a></li>
+        <li><a href="{{ url_for('main.hosts') }}">主机列表</a></li>
+        <li class="active">主机详情</li>
+    </ol>
+
+<div class="panel panel-default">
+        <!-- Default panel contents -->
+        <div class="panel-heading">主机详情</div>
+
+        <!-- Table -->
+        <table class="table table-bordered">
+            <tbody>
+					<tr >
+						<td><strong>主机名：</strong></td>
+						<td>{{ host.hostname }}</td>
+					</tr>
+					<tr >
+						<td><strong>IP地址：</strong></td>
+						<td>{{ host.ip }}</td>
+					</tr>
+                    <tr >
+						<td><strong>端口：</strong></td>
+						<td>{{ host.port }}</td>
+					</tr>
+					<tr >
+						<td><strong>CPU个数：</strong></td>
+						<td>{{ host.cpu }}</td>
+					</tr>
+                    <tr >
+						<td><strong>内存大小：</strong></td>
+						<td>{{ host.memory }}</td>
+					</tr>
+					<tr >
+						<td><strong>硬盘大小：</strong></td>
+						<td>{{ host.disk }}</td>
+					</tr>
+                    <tr >
+						<td><strong>操作系统：</strong></td>
+						<td>{{ host.system }}</td>
+					</tr>
+					<tr >
+						<td><strong>创建人：</strong></td>
+						<td>{{ host.create_user }}</td>
+					</tr>
+                    <tr >
+						<td><strong>创建时间：</strong></td>
+						<td>{{ host.create_date }}</td>
+					</tr>
+				</tbody>
+            </tbody>
+        </table>
+    </div>
+{% endblock %}

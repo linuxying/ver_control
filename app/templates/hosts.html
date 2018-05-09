@@ -47,7 +47,7 @@
                             <td>
                                 <label><input type="checkbox" autocomplete="off"></label>
                             </td>
-                            <td>{{ h.hostname }}</td>
+                            <td><a href="{{ url_for('main.host_detail', id=h.id) }}">{{ h.hostname }}</a></td>
                             <td>{{ h.ip }}</td>
                             <td>{{ h.port }}</td>
                             <td>{{ h.system }}</td>
