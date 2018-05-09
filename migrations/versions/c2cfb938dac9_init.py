@@ -1,8 +1,8 @@
-"""add roles
+"""init
 
-Revision ID: 4b7d4f3d6dca
+Revision ID: c2cfb938dac9
 Revises: 
-Create Date: 2018-04-22 10:54:30.831387
+Create Date: 2018-04-22 23:04:16.636257
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = '4b7d4f3d6dca'
+revision = 'c2cfb938dac9'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -50,8 +50,7 @@ def upgrade():
     sa.Column('remark', sa.Text(), nullable=True),
     sa.Column('users_id', sa.Integer(), nullable=True),
     sa.ForeignKeyConstraint(['users_id'], ['users.id'], ),
-    sa.PrimaryKeyConstraint('id'),
-    sa.UniqueConstraint('projectname')
+    sa.PrimaryKeyConstraint('id')
     )
     # ### end Alembic commands ###
 
