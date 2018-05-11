@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+
+{% block page_content %}
+    <!--标题-->
+    <ol class="breadcrumb">
+        <li><a href="{{ url_for('main.index') }}">项目管理</a></li>
+        <li><a href="{{ url_for('main.projects') }}">项目列表</a></li>
+        <li class="active">项目详情</li>
+    </ol>
+
+<div class="panel panel-default">
+        <!-- Default panel contents -->
+        <div class="panel-heading">项目详情</div>
+
+        <!-- Table -->
+        <table class="table table-bordered">
+            <tbody>
+					<tr >
+						<td><strong>项目名称：</strong></td>
+						<td>{{ projects.projectname }}</td>
+					</tr>
+					<tr >
+						<td><strong>开始时间：</strong></td>
+						<td>{{ projects.date }}</td>
+					</tr>
+                    <tr >
+						<td><strong>部署环境：</strong></td>
+						<td>{{ projects.env }}</td>
+					</tr>
+					<tr >
+						<td><strong>研发版本：</strong></td>
+						<td>{{  projects.dev_ver }}</td>
+					</tr>
+                    <tr >
+						<td><strong>交付版本：</strong></td>
+						<td>{{ projects.rel_ver }}</td>
+					</tr>
+					<tr >
+						<td><strong>本地存储路径：</strong></td>
+						<td>{{ projects.path }}</td>
+					</tr>
+                    <tr >
+						<td><strong>备注：</strong></td>
+						<td>{{  projects.remark }}</td>
+					</tr>
+					<tr >
+						<td><strong>创建人：</strong></td>
+						<td>{{ user.username }}</td>
+					</tr>
+				</tbody>
+            </tbody>
+        </table>
+    </div>
+{% endblock %}

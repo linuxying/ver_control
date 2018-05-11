@@ -39,67 +39,6 @@ def user(username):
     return render_template('user.html', user=user)
 
 
-@main.route('/add-project', methods=['GET', 'POST'])
-@login_required
-def add_project():
-    form = ProjectForm()
-    if form.validate_on_submit():
-        project = Project(projectname=form.projectname.data, date=form.date.data, env=form.env.data,
-                          dev_ver=form.dev_ver.data, rel_ver=form.rel_ver.data, path=form.path.data,
-                          remark=form.remark.data, user=current_user)
-        db.session.add(project)
-        db.session.commit()
-        flash('添加项目成功，请返回首页查看！')
-        return redirect(url_for('main.add_project'))
-    return render_template('add_project.html', form=form)
-
-
-@main.route('/edit-project/<id>', methods=['GET', 'POST'])
-@login_required
-def edit_project(id):
-    project = Project.query.get_or_404(id)
-    form = ProjectForm()
-    if form.validate_on_submit():
-        project.projectname = form.projectname.data
-        project.date = form.date.data
-        project.env = form.env.data
-        project.dev_ver = form.dev_ver.data
-        project.rel_ver = form.rel_ver.data
-        project.path = form.path.data
-        project.remark = form.remark.data
-        db.session.add(current_user)
-        # flash('数据更新成功，请返回首页查看！')
-        return redirect(url_for('main.index'))
-    form.projectname.data = project.projectname
-    form.date.data = project.date
-    form.env.data = project.env
-    form.dev_ver.data = project.dev_ver
-    form.rel_ver.data = project.rel_ver
-    form.path.data = project.path
-    form.remark.data = project.remark
-    return render_template('edit_project.html', form=form)
-
-
-@main.route('/project-details/<project>')
-@login_required
-def project_details(project):
-    """
-    定义项目详单函数，传入参数为项目名称
-    """
-    projects_details = Project.query.filter_by(projectname=project)
-    print("**********************++++++++++++++++++++++++++++++++")
-    for p in projects_details:
-        print(p.id)
-    print("******************************************************")
-    old_projects = Project.query.all()
-    # 定义一个空列表，目的是为了去除重复的项目名称
-    projects = []
-    for p in old_projects:
-        if p.projectname not in projects:
-            projects.append(p.projectname)
-    return render_template('project_details.html', projects=projects, projects_details=projects_details)
-
-
 @main.route('/hosts')
 @login_required
 def hosts():
@@ -181,6 +120,70 @@ def projects():
     """
     projects = Project.query.all()
     return render_template('projects.html', projects=projects)
+
+
+@main.route('/add-project', methods=['GET', 'POST'])
+@login_required
+def add_project():
+    form = ProjectForm()
+    if form.validate_on_submit():
+        project = Project(projectname=form.projectname.data, date=form.date.data, env=form.env.data,
+                          dev_ver=form.dev_ver.data, rel_ver=form.rel_ver.data, path=form.path.data,
+                          remark=form.remark.data, user=current_user)
+        db.session.add(project)
+        db.session.commit()
+        flash('添加项目成功！')
+        return redirect(url_for('main.projects'))
+    return render_template('add_project.html', form=form)
+
+
+@main.route('/del-project/<id>')
+@login_required
+def del_project(id):
+    project = Project.query.filter_by(id=id).first()
+    db.session.delete(project)
+    db.session.commit()
+    flash('删除项目成功！')
+    projects = Project.query.all()
+    return render_template('projects.html', projects=projects)
+
+
+@main.route('/edit-project/<id>', methods=['GET', 'POST'])
+@login_required
+def edit_project(id):
+    project = Project.query.get_or_404(id)
+    form = ProjectForm()
+    if form.validate_on_submit():
+        project.projectname = form.projectname.data
+        project.date = form.date.data
+        project.env = form.env.data
+        project.dev_ver = form.dev_ver.data
+        project.rel_ver = form.rel_ver.data
+        project.path = form.path.data
+        project.remark = form.remark.data
+        db.session.add(current_user)
+        flash('数据更新成功')
+        return redirect(url_for('main.projects'))
+    form.projectname.data = project.projectname
+    form.date.data = project.date
+    form.env.data = project.env
+    form.dev_ver.data = project.dev_ver
+    form.rel_ver.data = project.rel_ver
+    form.path.data = project.path
+    form.remark.data = project.remark
+    return render_template('edit_project.html', form=form)
+
+
+@main.route('/project-detail/<id>')
+@login_required
+def project_detail(id):
+    """
+    定义项目详单函数，传入参数为项目名称
+    """
+    projects = Project.query.filter_by(id=id).first()
+    userid = projects.user.id
+    user = User.query.filter_by(id=userid).first()
+    return render_template('project_detail.html', projects=projects, user=user)
 
 
 @main.route('/users')

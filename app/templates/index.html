@@ -2,7 +2,19 @@
 
 {% block title %}主页{% endblock %}
 
+<!--flash消息-->
+{% block flash %}
+{% endblock %}
+
 {% block page_content %}
+    <div class="container">
+        {% for message in get_flashed_messages() %}
+            <div class="alert alert-warning">
+                <button type="button" class="close" data-dismiss="alert">&times;</button>
+                {{ message }}
+            </div>
+        {% endfor %}
+    </div>
     <!--标题-->
     <ol class="breadcrumb">
         {#                    <li><a href="#">Home</a></li>#}

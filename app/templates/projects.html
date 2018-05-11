@@ -2,7 +2,19 @@
 
 {% block title %}项目列表{% endblock %}
 
+<!--flash消息-->
+{% block flash %}
+{% endblock %}
+
 {% block page_content %}
+    <div class="container">
+        {% for message in get_flashed_messages() %}
+            <div class="alert alert-warning">
+                <button type="button" class="close" data-dismiss="alert">&times;</button>
+                {{ message }}
+            </div>
+        {% endfor %}
+    </div>
     <!--标题-->
     <ol class="breadcrumb">
         <li><a href="#">项目管理</a></li>
@@ -36,12 +48,12 @@
                     {% for p in projects %}
                         <tr>
                             <td>{{ p.id }}</td>
-                            <td>{{ p.projectname }}</td>
+                            <td><a href="{{ url_for('main.project_detail', id=p.id) }}">{{ p.projectname }}</a></td>
                             <td>{{ p.date }}</td>
                             <td>{{ p.remark }}</td>
                             <td>
-                                <a class="btn-xs btn-primary">编辑</a>
-                                <a class="btn-xs btn-danger">删除</a>
+                                <a href="{{ url_for('main.edit_project', id=p.id) }}" class="btn-xs btn-primary">编辑</a>
+                                <a href="{{ url_for('main.del_project', id=p.id) }}" class="btn-xs btn-danger">删除</a>
                             </td>
                         </tr>
                     {% endfor %}
