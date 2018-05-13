@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+
+<!--flash消息-->
+{% block flash %}
+    <div class="container">
+        {% for message in get_flashed_messages() %}
+            <div class="alert alert-warning">
+                <button type="button" class="close" data-dismiss="alert">&times;</button>
+                {{ message }}
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}
+
+
+{% block page_content %}
+<h1>Forbidden</h1>
+<p>你没有权限访问用户管理界面，请登陆管理员账号或直接联系管理员查看！</p>
+{% endblock %}

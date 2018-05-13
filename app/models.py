@@ -27,7 +27,7 @@ class User(UserMixin, db.Model):
         super(User, self).__init__(**kwargs)
         if self.role is None:
             if self.email == current_app.config['FLASKY_ADMIN']:
-                self.role = Role.query.filter_by(permission=0xff).first()
+                self.role = Role.query.filter_by(permissions=0xff).first()
             if self.role is None:
                 self.role = Role.query.filter_by(default=True).first()
 
@@ -86,7 +86,7 @@ class User(UserMixin, db.Model):
                (self.role.permissions & permissions) == permissions
 
     def is_administrator(self):
-        return self.can(self, Permission.ADMINISTER)
+        return self.can(self, Permission.ADMIN)
 
     def __repr__(self):
         return '<User %s>' % self.username
@@ -122,10 +122,8 @@ class Role(db.Model):
     @staticmethod
     def insert_roles():
         roles = {
-            'User': (Permission.FOLLOW | Permission.COMMENT | Permission.WRITE_ARTICLES, True),
-            'Moderator': (Permission.FOLLOW | Permission.COMMENT |
-                          Permission.WRITE_ARTICLES | Permission.MODERATE_COMMENTS, False),
-            'Administrator': (0xff, False)
+            'User': (Permission.USER, True),
+            'Admin': (0xff, False)
         }
 
         for r in roles:
@@ -137,16 +135,16 @@ class Role(db.Model):
             db.session.add(role)
         db.session.commit()
 
+    def __repr__(self):
+        return '<Role %s>' % self.name
+
 
 class Permission:
     """
     定义权限，普通用户和管理员用户
     """
-    FOLLOW = 0x01
-    COMMENT = 0x02
-    WRITE_ARTICLES = 0x04
-    MODERATE_COMMENTS = 0x08
-    ADMINISTER = 0x80
+    USER = 0x01
+    ADMIN = 0x80
 
 
 class Project(db.Model):
@@ -161,6 +159,8 @@ class Project(db.Model):
     dev_ver = db.Column(db.String(256), nullable=False)
     rel_ver = db.Column(db.String(256), nullable=False)
     path = db.Column(db.String(512), nullable=False)
+    log_dir = db.Column(db.String(512), nullable=False)
+    host = db.Column(db.String(512), nullable=False)
     remark = db.Column(db.Text)
     users_id = db.Column(db.Integer, db.ForeignKey('users.id'))
 

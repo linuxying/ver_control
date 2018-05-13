@@ -5,18 +5,18 @@
 
 <!--flash消息-->
 {% block flash %}
-    <div class="container">
-        {% for message in get_flashed_messages() %}
-            <div class="alert alert-warning">
-                <button type="button" class="close" data-dismiss="alert">&times;</button>
-                {{ message }}
-            </div>
-        {% endfor %}
-    </div>
 {% endblock %}
 
 {% block content %}
     {% block page_content %}
+        <div class="container">
+            {% for message in get_flashed_messages() %}
+                <div class="alert alert-warning">
+                    <button type="button" class="close" data-dismiss="alert">&times;</button>
+                    {{ message }}
+                </div>
+            {% endfor %}
+        </div>
     <div class="row" style="margin-top: 50px;">
         <div class="col-md-4 col-md-offset-4">
             <h2 class="form-signin-heading">please sigin in</h2>

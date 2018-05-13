@@ -38,7 +38,7 @@
                             <td>{{ u.id }}</td>
                             <td>{{ u.username }}</td>
                             <td>{{ u.role.name }}</td>
-                            <td>{% for p in u.projects %}<a>{{ p.projectname }}&nbsp;</a>{% endfor %}</td>
+                            <td>{% for p in u.projects %}<a href="{{ url_for('main.project_detail', id=p.id) }}">{{ p.projectname }}&nbsp;</a>{% endfor %}</td>
                             <td>
                                 <a class="btn-xs btn-primary">编辑</a>
                                 <a class="btn-xs btn-danger">删除</a>

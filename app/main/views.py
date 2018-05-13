@@ -23,13 +23,6 @@ def index():
     return render_template('index.html', projectsnum=projectsnum, usersnum=usersnum, hostsnum=hostsnum)
 
 
-@main.route('/admin')
-@login_required
-@admin_required
-def for_admins_only():
-    return "For administrators!"
-
-
 @main.route('/user/<username>')
 @login_required
 def user(username):
@@ -129,7 +122,8 @@ def add_project():
     if form.validate_on_submit():
         project = Project(projectname=form.projectname.data, date=form.date.data, env=form.env.data,
                           dev_ver=form.dev_ver.data, rel_ver=form.rel_ver.data, path=form.path.data,
-                          remark=form.remark.data, user=current_user)
+                          remark=form.remark.data, user=current_user, log_dir=form.log_dir.data,
+                          host=form.host.data)
         db.session.add(project)
         db.session.commit()
         flash('添加项目成功！')
@@ -161,6 +155,8 @@ def edit_project(id):
         project.rel_ver = form.rel_ver.data
         project.path = form.path.data
         project.remark = form.remark.data
+        project.log_dir = form.log_dir.data
+        project.host = form.host.data
         db.session.add(current_user)
         flash('数据更新成功')
         return redirect(url_for('main.projects'))
@@ -171,6 +167,8 @@ def edit_project(id):
     form.rel_ver.data = project.rel_ver
     form.path.data = project.path
     form.remark.data = project.remark
+    form.host.data = project.host
+    form.log_dir.data = project.log_dir
     return render_template('edit_project.html', form=form)
 
 
@@ -195,3 +193,10 @@ def users():
     """
     users = User.query.all()
     return render_template('users.html', users=users)
+
+
+@main.route('/admin')
+@login_required
+@admin_required
+def for_admins_only():
+    return "For administrators!"

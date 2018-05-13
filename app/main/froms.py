@@ -15,6 +15,8 @@ class ProjectForm(FlaskForm):
     dev_ver = StringField('研发版本', validators=[DataRequired(), Length(1, 64)])
     rel_ver = StringField('交付版本', validators=[DataRequired(), Length(1, 64)])
     path = StringField('本地存储文件路径', validators=[DataRequired(), Length(1, 64)])
+    log_dir = StringField('服务日志路径', validators=[DataRequired(), Length(1,64)])
+    host = StringField('部署主机ip', validators=[DataRequired(), Length(1, 256)])
     remark = StringField('备注', validators=[DataRequired()])
     submit = SubmitField('提交')
 
